@@ -131,13 +131,15 @@
                 // 每次增加1s的角度
                 secDeg += (1 / 60) * 360;
                 minDeg += (1 / 60 / 60) * 360;
-                hourDeg += (1 / 60 / 60 / 12) * 360;
+                hourDeg += (1 / 12 / 60 / 60) * 360;
                 // 改变角度
                 secHand.style.transform = `rotate(${secDeg}deg)`;
                 minHand.style.transform = `rotate(${minDeg}deg)`;
                 hourHand.style.transform = `rotate(${hourDeg}deg)`;
             }
+            // 获取当前时间
             initTime();
+            // 每过1s更新下指针角度
             setInterval(updateTime, 1000);
         </script>
     </body>
