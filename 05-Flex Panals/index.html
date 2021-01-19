@@ -11,50 +11,38 @@
   </head>
   <body>
     <style>
-      html {
-        box-sizing: border-box;
-        background: #ffc600;
-        font-family: "helvetica neue";
-        font-size: 20px;
-        font-weight: 200;
-      }
-      body {
+      * {
         margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      *,
-      *:before,
-      *:after {
-        box-sizing: inherit;
-      }
-
       .panels {
+        /* 设置最小高度使纵向铺满 */
         min-height: 100vh;
         overflow: hidden;
         display: flex;
       }
-
       .panel {
         display: flex;
+        /* 让里面文字纵向布局 */
         flex-direction: column;
+        /* flex属性是flex-grow, flex-shrink 和 flex-basis的简写，
+           默认值为0 1 auto。后两个属性可选。 */
+        /* 当item铺不满时，需要放大，最大的放大限度 */
         flex: 1;
         justify-content: center;
         align-items: center;
-        /* 调试时添加边框以便分辨*/
-        /* border: 1px solid #f00; */
-        color: white;
-        text-align: center;
+        /* 设置一个基准，让里面em单位参考 */
         font-size: 20px;
-
+        /* 插页(阴影向内) | x偏移量 | y偏移量 | 阴影颜色 */
         box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.1);
-
         background: #6b0f9c;
         background-size: cover;
         background-position: center;
-
+        /* transition简写：过渡属性 过渡时间 过渡方式 过渡间隔 */
         transition: font-size 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11),
           flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11), background 0.2s;
       }
-
       .panel1 {
         background-image: url(images/bg1.jfif);
       }
@@ -70,55 +58,45 @@
       .panel5 {
         background-image: url(images/bg5.jfif);
       }
-
       .panel > * {
-        margin: 0;
         width: 100%;
         /* transition简写：过渡属性 过渡时间 过渡方式 过渡间隔 */
         transition: transform 0.5s 0.7s;
         display: flex;
-        /* flex简写：放大比例 缩小比例 初始大小 */
+        /* flex简写：可接受放大比例 可接受缩小比例 初始大小 */
         /* flex属性是flex-grow, flex-shrink 和 flex-basis的简写，
            该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。*/
         flex: 1 0 auto;
         justify-content: center;
         align-items: center;
       }
-
       .panel p {
         text-transform: uppercase;
         font-family: "Amatic SC", cursive;
         text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
+        /* em：相对长度单位，1em就是父代font-size的一倍，支持小数点 */
         font-size: 2em;
+        color: white;
+        text-align: center;
       }
       .panel p:nth-child(2) {
         font-size: 4em;
       }
-
       .panel.open {
         font-size: 40px;
         flex: 5;
       }
-
       .panel p:first-child {
         transform: translateY(-100%);
       }
-
       .panel p:last-child {
         transform: translateY(100%);
       }
-
       .panel.open p:first-child {
         transform: translateY(0);
       }
-
       .panel.open p:last-child {
         transform: translateY(0);
-      }
-
-      .cta {
-        color: white;
-        text-decoration: none;
       }
     </style>
     <div class="panels">
