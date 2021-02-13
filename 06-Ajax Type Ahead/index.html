@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ajax Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="诗句 诗名 诗人" />
+      <ul class="suggestions">
+        <li>输入词句，找一首诗</li>
+        <li></li>
+      </ul>
+    </form>
+    <script>
+      // 2 begin
+      // 获取诗句库json
+      const endpoint =
+        "https://gist.githubusercontent.com/soyaine/81399bb2b24ca1bb5313e1985533c640/raw/bdf7df2cbcf70706c4a5e51a7dfb8c933ed78878/TangPoetry.json";
+      // 搜索结果
+      const poetrys = [];
+      // 异步通讯
+      fetch(endpoint)
+        .then((blob) => blob.json())
+        .then((data) => poetrys.push(...data));
+      // 2 end
+
+      // 3 begin
+      function findMatches(word, poetrys) {
+        // 用数组方法filter进行搜索
+        return poetrys.filter((poet) => {
+          // 使用正则表达式进行匹配
+          const regex = new RegExp(word, "gi");
+          // 数组方法join()将数组粘合为字符串
+          const author = poet.detail_author.join("");
+          return (
+            // 在古诗诗句、标题、作者进行匹配
+            poet.detail_text.match(regex) ||
+            poet.title.match(regex) ||
+            author.match(regex)
+          );
+        })
+      }
+      function displayMatches() {
+        const matches = findMatches(this.value, poetrys);
+        const regex = new RegExp(this.value, "gi");
+        // 数组方法map()对数组进行指定方法映射处理
+        const html = matches
+          .map((poet) => {
+            const text = poet.detail_text.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            const title = poet.title.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            return `
+              <li>
+                <span class="poet">${text}</span>
+                <span class="title">${title} - ${poet.detail_author[0]}</span>
+              </li>
+            `;
+          })
+          .join("");
+        // 显示替换结果
+        suggestions.innerHTML = html;
+      }
+      // 1 begin
+      // 获取搜索框
+      const search = document.querySelector(".search");
+      // 获取搜索结果框
+      const suggestions = document.querySelector(".suggestions");
+      // 监听事件
+      search.addEventListener("change", displayMatches);
+      search.addEventListener("keyup", displayMatches);
+      // 1 end
+    </script>
+  </body>
+</html>
