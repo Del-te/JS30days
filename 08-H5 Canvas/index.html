@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800" style="overflow: auto"></canvas>
+    <script>
+      // 捕获元素并初始化
+      const canvas = document.querySelector("#draw");
+      const ctx = canvas.getContext("2d");
+      // 初始化属性
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      // 线条粗细
+      ctx.lineWidth = 70;
+      // 笔触的形状，有round|butt|square圆、平、方三种。
+      ctx.lineCap = "round";
+      // 线条描边的颜色
+      ctx.strokeStyle = "#f00";
+      // 填充的颜色
+      ctx.fillStyle = "#f00";
+      // 状态变量
+      let isDrawing = false;
+      // 色调|色相
+      let hue = 0;
+      // 线条是变粗还是变细
+      let direction = true;
+      // 当前坐标和上次坐标
+      let lastX = 0;
+      let lastY = 0;
+      let x = 0;
+      let y = 0;
+
+      function draw(e) {
+        if (!isDrawing) {
+          return;
+        }
+        // 获取坐标
+        x = e.offsetX;
+        y = e.offsetY;
+        // 控制线条粗细: 在10~80范围内不断移动
+        if (ctx.lineWidth < 20 || ctx.lineWidth > 100) {
+          direction = !direction;
+        }
+        if (direction) {
+          ctx.lineWidth++;
+        } else {
+          ctx.lineWidth--;
+        }
+        // 控制颜色渐变：色调不断循环改变
+        ctx.strokeStyle = `hsl(${hue}, 90%, 50%)`;
+        if (hue >= 360) {
+          hue = 0;
+        }
+        hue++;
+        // 绘制
+        ctx.beginPath();
+        // 起点
+        ctx.moveTo(lastX, lastY);
+        // 终点
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        // 更新坐标
+        [lastX, lastY] = [x, y];
+      }
+      // 当鼠标按下时准备开始
+      canvas.addEventListener("mousedown", (e) => {
+        // 标记绘制中
+        isDrawing = true;
+        // 获取当前坐标
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      });
+      // 鼠标移动时画线
+      canvas.addEventListener("mousemove", draw);
+      // 鼠标抬起时结束
+      canvas.addEventListener("mouseup", () => (isDrawing = false));
+      // 鼠标离开画布时结束
+      canvas.addEventListener("mouseout", () => (isDrawing = false));
+    </script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        overflow: hidden;
+      }
+    </style>
+  </body>
+</html>
