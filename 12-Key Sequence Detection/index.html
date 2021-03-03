@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>键盘输入检测</title>
+    <!-- 引入判断正确的提示效果 -->
+    <script
+      type="text/javascript"
+      src="http://www.cornify.com/js/cornify.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      // 输入的内容
+      let pressed = [];
+      // 要验证的暗号
+      let result = "vv";
+      window.addEventListener("keyup", handleJudge);
+      // 从第a个位置, 删除共b个元素, 然后插入c
+      // 使数组长度始终保持暗号的长度，以验证完整的一次暗号
+      pressed.splice(
+        -secretCode.length - 1,
+        pressed.length - secretCode.length
+      );
+      // 将数组转换为字符串并用指定符号分隔
+      function handleJudge(e) {
+        // 用点key来获取输入键值
+        pressed.push(e.key);
+        if (pressed.join("").includes(result)) {
+          console.log("DING DING!");
+          cornify_add();
+        }
+      }
+    </script>
+  </body>
+</html>
