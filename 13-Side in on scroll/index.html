@@ -224,7 +224,7 @@
     </div>
 
     <script>
-            function debounce(func, wait = 20, immediate = true) {
+      function debounce(func, wait = 20, immediate = true) {
         var timeout;
         return function () {
           var context = this,
@@ -245,10 +245,20 @@
       function handleCheckSlide(e) {
         imgs.forEach((img) => {
           // 图片该出现的绝对位置
+          // window.innerHeight是包含滚动条的window的长度
+          // window.scrollX是window距离document顶部划过了多少px
           const showPoint =
             window.scrollY + window.innerHeight - img.height / 2;
           // 图片底部的绝对位置
+          // 这里的offsetTop是距离document顶部
           const imgBottom = img.offsetTop + img.height;
+
+          // offset是偏移的意思
+          // offsetTop: 元素相对父元素上方的偏移。
+          // offsetLeft： 元素相对父元素左边框的偏移。
+          // offsetWidth： 自身包括padding 、 边框、内容区的宽度。
+          // offsetHeight： 自身包括padding、边框、内容去的高度。
+          // offsetParent： 作为偏移参照点的父级元素。
 
           // 第一个临界点：窗口划过图片一半时
           const isHalfNow = img.offsetTop < showPoint;
