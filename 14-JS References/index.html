@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS引用类型拷贝</title>
+</head>
+<body>
+
+  <script>
+    let arr = [1, 2, 3, 4, 5];
+    let obj = {
+      name: 'yun',
+      age: 15,
+      sex: 'femali'
+    };
+
+    // 数组拷贝方法
+    let a = arr.slice();
+    console.log(a === arr);
+
+    let b = [].concat(arr);
+    console.log(b === arr);
+
+    let c = [...arr];
+    console.log(c === arr);
+
+    let d = Array.from(arr);
+    console.log(d === arr);
+    // 对象拷贝方法
+    // 此方法只是浅拷贝，如果源对象是复合对象，深层的只能拷贝到引用
+    let e = Object.assign({}, obj);
+    console.log(e === obj);
+
+    let f = Object.assign({}, obj, {newAtr: 111});
+    console.log(f === obj);
+
+    // 通过json拷贝，无法拷贝对象的方法和原型链上的属性和方法
+    let g = JSON.parse(JSON.stringify(obj));
+    console.log(g === obj);
+  </script>
+</body>
+</html>
